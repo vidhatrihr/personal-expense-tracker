@@ -1,14 +1,14 @@
 /* Design tokens */
 :root {
-  --bg: #0f0f11;
-  --surface: #18181c;
-  --surface-alt: #222228;
-  --border: #2e2e36;
-  --accent: #c8f55a;
-  --accent-dim: #a8d43a;
-  --text: #e8e8ee;
-  --text-muted: #7a7a8c;
-  --danger: #f55a5a;
+  --bg: #060608;
+  --surface: #0d0d13;
+  --surface-alt: #13131c;
+  --border: #1e1e2c;
+  --accent: #f72585;
+  --accent-dim: #c41d6d;
+  --text: #eeeef6;
+  --text-muted: #6a6a82;
+  --danger: #ff4d4d;
   --radius: 10px;
   --gap: 1.5rem;
 }
