@@ -3,26 +3,23 @@ import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
+const API = 'http://localhost:5000/api'
+const opts = { credentials: 'include' }
 
-// user & state
 const userName = ref('')
 const budget = ref(0)
 const budgetInput = ref(0)
 const expenses = ref([])
 
-// new expense form
 const form = ref({ amount: '', category: '', description: '' })
 
-const API = 'http://localhost:5000/api'
-const opts = { credentials: 'include' }
-
-// --- summary computed ---
+// Computed totals
 const totalSpent = computed(() =>
   expenses.value.reduce((sum, e) => sum + e.amount, 0)
 )
 const remaining = computed(() => budget.value - totalSpent.value)
 
-// category breakdown: { Food: 120, Travel: 50, ... }
+// Category totals sorted descending: { Food: 120, Travel: 50 }
 const breakdown = computed(() => {
   const map = {}
   for (const e of expenses.value) {
@@ -31,21 +28,17 @@ const breakdown = computed(() => {
   return Object.entries(map).sort((a, b) => b[1] - a[1])
 })
 
-// --- fetch on mount ---
 onMounted(async () => {
-  // verify session, get user info
   const meRes = await fetch(`${API}/whoami`, opts)
   if (!meRes.ok) { router.push('/'); return }
   const me = await meRes.json()
   userName.value = me.data.name
 
-  // load budget
   const bRes = await fetch(`${API}/budget`, opts)
   const bJson = await bRes.json()
   budget.value = bJson.data.amount
   budgetInput.value = bJson.data.amount
 
-  // load expenses
   await loadExpenses()
 })
 
@@ -93,7 +86,7 @@ async function logout() {
   router.push('/')
 }
 
-// currency formatter
+// Format amount in INR
 function fmt(n) {
   return '₹' + Number(n).toFixed(2)
 }
@@ -124,7 +117,7 @@ function fmt(n) {
       </div>
     </div>
 
-    <!-- Budget -->
+    <!-- Set budget -->
     <div class="section">
       <h2>Set Budget</h2>
       <div class="budget-form">
@@ -132,7 +125,7 @@ function fmt(n) {
           <label for="budget-input">Monthly budget</label>
           <input id="budget-input" type="number" v-model="budgetInput" placeholder="0" min="0" />
         </div>
-        <button class="btn-primary" style="width: auto" @click="setBudget">Update</button>
+        <button class="btn-primary" @click="setBudget">Update</button>
       </div>
     </div>
 
@@ -152,7 +145,7 @@ function fmt(n) {
           <label for="exp-desc">Description</label>
           <input id="exp-desc" type="text" v-model="form.description" placeholder="What was it for?" />
         </div>
-        <button type="submit" class="btn-primary" style="width: auto">Add</button>
+        <button type="submit" class="btn-primary">Add</button>
       </form>
     </div>
 
@@ -195,3 +188,177 @@ function fmt(n) {
 
   </div>
 </template>
+
+<style scoped>
+.dashboard {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: var(--gap);
+}
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--gap);
+}
+
+.dashboard-header h1 {
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+.logout-btn {
+  background: transparent;
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+  font-size: 0.85rem;
+}
+
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1rem;
+  margin-bottom: var(--gap);
+}
+
+.summary-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1rem 1.2rem;
+}
+
+.summary-card .label {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.summary-card .value {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-top: 0.25rem;
+}
+
+.summary-card .value.accent {
+  color: var(--accent);
+}
+
+.summary-card .value.danger {
+  color: var(--danger);
+}
+
+.section {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  margin-bottom: var(--gap);
+}
+
+.section h2 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.budget-form {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-end;
+}
+
+.budget-form .form-group {
+  flex: 1;
+  margin-bottom: 0;
+}
+
+.budget-form .btn-primary {
+  width: auto;
+  white-space: nowrap;
+}
+
+.expense-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 2fr auto;
+  gap: 0.75rem;
+  align-items: flex-end;
+}
+
+.expense-form-grid .form-group {
+  margin-bottom: 0;
+}
+
+.expense-form-grid .btn-primary {
+  width: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+thead th {
+  text-align: left;
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid var(--border);
+}
+
+tbody td {
+  padding: 0.65rem 0.75rem;
+  border-bottom: 1px solid var(--border);
+}
+
+tbody tr:last-child td {
+  border-bottom: none;
+}
+
+tbody tr:hover {
+  background: var(--surface-alt);
+}
+
+.breakdown-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.breakdown-item {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+}
+
+.breakdown-item .cat-name {
+  color: var(--text-muted);
+}
+
+.breakdown-item .cat-amount {
+  font-weight: 500;
+}
+
+@media (max-width: 600px) {
+  .expense-form-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .expense-form-grid .form-group:nth-child(3) {
+    grid-column: 1 / -1;
+  }
+
+  .expense-form-grid .btn-primary {
+    grid-column: 1 / -1;
+    width: 100%;
+  }
+}
+</style>

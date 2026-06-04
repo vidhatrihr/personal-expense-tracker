@@ -3,6 +3,7 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
+const API = 'http://localhost:5000/api'
 
 const email = ref('')
 const password = ref('')
@@ -10,7 +11,7 @@ const error = ref('')
 
 async function login() {
   error.value = ''
-  const res = await fetch('http://localhost:5000/api/login', {
+  const res = await fetch(`${API}/login`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     credentials: 'include',
@@ -47,9 +48,18 @@ async function login() {
         <button type="submit" class="btn-primary">Sign in</button>
       </form>
 
-      <p style="margin-top: 1rem; text-align: center; font-size: 0.85rem; color: var(--text-muted)">
+      <p class="auth-footer">
         No account? <RouterLink to="/register">Register</RouterLink>
       </p>
     </div>
   </div>
 </template>
+
+<style scoped>
+.auth-footer {
+  margin-top: 1rem;
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+</style>
