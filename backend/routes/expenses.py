@@ -5,6 +5,7 @@ from models import db, Budget, Expense
 expenses_bp = Blueprint('expenses', __name__)
 
 
+# GET /budget — get budget
 @expenses_bp.route('/budget', methods=['GET'])
 @login_required
 def get_budget():
@@ -13,6 +14,7 @@ def get_budget():
     return jsonify({'data': {'amount': amount}})
 
 
+# POST /budget — set budget
 @expenses_bp.route('/budget', methods=['POST'])
 @login_required
 def set_budget():
@@ -30,6 +32,7 @@ def set_budget():
     return jsonify({'message': 'Budget updated', 'data': {'amount': budget.amount}})
 
 
+# GET /expenses — list expenses
 @expenses_bp.route('/expenses', methods=['GET'])
 @login_required
 def get_expenses():
@@ -41,6 +44,7 @@ def get_expenses():
     return jsonify({'data': result})
 
 
+# POST /expenses — add expense
 @expenses_bp.route('/expenses', methods=['POST'])
 @login_required
 def add_expense():
@@ -59,6 +63,7 @@ def add_expense():
     }})
 
 
+# DELETE /expenses/<expense_id> — delete expense
 @expenses_bp.route('/expenses/<int:expense_id>', methods=['DELETE'])
 @login_required
 def delete_expense(expense_id):
