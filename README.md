@@ -99,6 +99,5 @@ Runs on `http://localhost:5173`.
   </tr>
   <tr>
     <td><img src="assets/screenshot-3.png" alt="Screenshot 3" /></td>
-    <td><img src="assets/screenshot-4.png" alt="Screenshot 4" /></td>
   </tr>
 </table>
