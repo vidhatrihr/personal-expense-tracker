@@ -1,5 +1,9 @@
 # Personal Expense Tracker
 
+<p align="center">
+  <img src="assets/1.png" alt="Personal Expense Tracker" width="75%" />
+</p>
+
 A full-stack expense tracking application where users can set a monthly budget, log expenses, and view a spending summary.
 
 **Stack:** Flask · SQLite · Vue 3 (Vite) · Pure CSS  
@@ -83,3 +87,18 @@ npm run dev
 ```
 
 Runs on `http://localhost:5173`.
+
+---
+
+## Screenshots
+
+<table>
+  <tr>
+    <td><img src="assets/1.png" alt="Screenshot 1" /></td>
+    <td><img src="assets/2.png" alt="Screenshot 2" /></td>
+  </tr>
+  <tr>
+    <td><img src="assets/3.png" alt="Screenshot 3" /></td>
+    <td><img src="assets/4.png" alt="Screenshot 4" /></td>
+  </tr>
+</table>
