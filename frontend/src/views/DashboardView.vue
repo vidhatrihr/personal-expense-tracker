@@ -1,10 +1,11 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
+import { apiRequest } from '@/utils/api.js'
+import { useWhoAmI } from '@/composables/useWhoAmI.js'
 
 const router = useRouter()
-const API = 'http://localhost:5000/api'
-const opts = { credentials: 'include' }
+const { whoAmI } = useWhoAmI()
 
 const userName = ref('')
 const budget = ref(0)
@@ -29,12 +30,11 @@ const breakdown = computed(() => {
 })
 
 onMounted(async () => {
-  const meRes = await fetch(`${API}/whoami`, opts)
-  if (!meRes.ok) { router.push('/'); return }
-  const me = await meRes.json()
-  userName.value = me.data.name
+  const me = await whoAmI()
+  if (!me) return
+  userName.value = me.name
 
-  const bRes = await fetch(`${API}/budget`, opts)
+  const bRes = await apiRequest('/budget')
   const bJson = await bRes.json()
   budget.value = bJson.data.amount
   budgetInput.value = bJson.data.amount
@@ -43,32 +43,28 @@ onMounted(async () => {
 })
 
 async function loadExpenses() {
-  const res = await fetch(`${API}/expenses`, opts)
+  const res = await apiRequest('/expenses')
   const json = await res.json()
   expenses.value = json.data
 }
 
 async function setBudget() {
-  const res = await fetch(`${API}/budget`, {
-    ...opts,
+  const res = await apiRequest('/budget', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ amount: Number(budgetInput.value) }),
+    body: { amount: Number(budgetInput.value) },
   })
   const json = await res.json()
   budget.value = json.data.amount
 }
 
 async function addExpense() {
-  const res = await fetch(`${API}/expenses`, {
-    ...opts,
+  const res = await apiRequest('/expenses', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
+    body: {
       amount: Number(form.value.amount),
       category: form.value.category,
       description: form.value.description,
-    }),
+    },
   })
   if (res.ok) {
     form.value = { amount: '', category: '', description: '' }
@@ -77,12 +73,12 @@ async function addExpense() {
 }
 
 async function deleteExpense(id) {
-  await fetch(`${API}/expenses/${id}`, { ...opts, method: 'DELETE' })
+  await apiRequest(`/expenses/${id}`, { method: 'DELETE' })
   await loadExpenses()
 }
 
 async function logout() {
-  await fetch(`${API}/logout`, { ...opts, method: 'POST' })
+  await apiRequest('/logout', { method: 'POST' })
   router.push('/')
 }
 

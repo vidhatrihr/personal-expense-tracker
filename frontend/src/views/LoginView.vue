@@ -1,9 +1,9 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { apiRequest } from '@/utils/api.js'
 
 const router = useRouter()
-const API = 'http://localhost:5000/api'
 
 const email = ref('')
 const password = ref('')
@@ -11,11 +11,9 @@ const error = ref('')
 
 async function login() {
   error.value = ''
-  const res = await fetch(`${API}/login`, {
+  const res = await apiRequest('/login', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    credentials: 'include',
-    body: JSON.stringify({ email: email.value, password: password.value }),
+    body: { email: email.value, password: password.value },
   })
   const json = await res.json()
   if (!res.ok) {

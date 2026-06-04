@@ -1,9 +1,9 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { apiRequest } from '@/utils/api.js'
 
 const router = useRouter()
-const API = 'http://localhost:5000/api'
 
 const name = ref('')
 const email = ref('')
@@ -12,11 +12,9 @@ const error = ref('')
 
 async function register() {
   error.value = ''
-  const res = await fetch(`${API}/register`, {
+  const res = await apiRequest('/register', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    credentials: 'include',
-    body: JSON.stringify({ name: name.value, email: email.value, password: password.value }),
+    body: { name: name.value, email: email.value, password: password.value },
   })
   const json = await res.json()
   if (!res.ok) {
