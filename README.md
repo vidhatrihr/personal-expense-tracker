@@ -15,28 +15,13 @@ A full-stack expense tracking application where users can set a monthly budget, 
 ```
 personal-expense-tracker/
 ├── backend/
-│   ├── app.py
-│   ├── models.py
-│   ├── populate_db.py
-│   ├── requirements.txt
 │   └── routes/
-│       ├── auth.py
-│       └── expenses.py
 └── frontend/
     └── src/
         ├── composables/
-        │   └── useWhoAmI.js
-        ├── utils/
-        │   └── api.js
         ├── router/
-        │   └── index.js
-        ├── views/
-        │   ├── LoginView.vue
-        │   ├── RegisterView.vue
-        │   └── DashboardView.vue
-        ├── App.vue
-        ├── main.js
-        └── style.css
+        ├── utils/
+        └── views/
 ```
 
 ---
