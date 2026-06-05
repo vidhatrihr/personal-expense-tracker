@@ -5,7 +5,7 @@ import { apiRequest } from '@/utils/api.js'
 import { useWhoAmI } from '@/composables/useWhoAmI.js'
 
 const router = useRouter()
-const { whoAmI } = useWhoAmI()
+const { user, clearUser } = useWhoAmI()
 
 const userName = ref('')
 const budget = ref(0)
@@ -30,9 +30,7 @@ const breakdown = computed(() => {
 })
 
 onMounted(async () => {
-  const me = await whoAmI()
-  if (!me) return
-  userName.value = me.name
+  userName.value = user.value.name
 
   const bRes = await apiRequest('/budget')
   const bJson = await bRes.json()
@@ -79,6 +77,7 @@ async function deleteExpense(id) {
 
 async function logout() {
   await apiRequest('/logout', { method: 'POST' })
+  clearUser()
   router.push('/')
 }
 

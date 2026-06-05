@@ -1,19 +1,35 @@
-import { useRouter } from 'vue-router'
+import { ref } from 'vue'
 import { apiRequest } from '@/utils/api.js'
 
-export function useWhoAmI() {
-  const router = useRouter()
+const user = ref(null)
+const fetched = ref(false)
 
-  // Checks the current session. Returns user data or null if unauthenticated.
+export function useWhoAmI() {
   async function whoAmI() {
-    const res = await apiRequest('/whoami')
-    if (!res.ok) {
-      router.push('/')
+    if (fetched.value) {
+      return user.value
+    }
+    try {
+      const res = await apiRequest('/whoami')
+      fetched.value = true
+      if (!res.ok) {
+        user.value = null
+        return null
+      }
+      const json = await res.json()
+      user.value = json.data
+      return json.data
+    } catch {
+      user.value = null
+      fetched.value = false
       return null
     }
-    const json = await res.json()
-    return json.data
   }
 
-  return { whoAmI }
+  function clearUser() {
+    user.value = null
+    fetched.value = false
+  }
+
+  return { whoAmI, user, clearUser }
 }
