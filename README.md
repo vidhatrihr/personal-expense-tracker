@@ -6,8 +6,7 @@
 
 A full-stack expense tracking application where users can set a monthly budget, log expenses, and view a spending summary.
 
-**Stack:** Flask · SQLite · Vue 3 (Vite) · Pure CSS  
-**Demo credentials:** `vidhatri@example.com` / `password123`
+**Stack:** Flask · SQLite · Vue 3 (Vite)
 
 ---
 
@@ -44,25 +43,25 @@ personal-expense-tracker/
 
 ## Routes
 
-| Path | View | Description |
-|---|---|---|
-| `/` | `LoginView` | Login page |
-| `/register` | `RegisterView` | Registration page |
+| Path         | View            | Description                            |
+| ------------ | --------------- | -------------------------------------- |
+| `/`          | `LoginView`     | Login page                             |
+| `/register`  | `RegisterView`  | Registration page                      |
 | `/dashboard` | `DashboardView` | Budget, expenses, and spending summary |
 
 ### API endpoints
 
-| Method | URL | Description |
-|---|---|---|
-| `POST` | `/api/register` | Create account |
-| `POST` | `/api/login` | Log in |
-| `POST` | `/api/logout` | Log out |
-| `GET` | `/api/whoami` | Current user info |
-| `GET` | `/api/budget` | Get current budget |
-| `POST` | `/api/budget` | Set or update budget |
-| `GET` | `/api/expenses` | List all expenses |
-| `POST` | `/api/expenses` | Add an expense |
-| `DELETE` | `/api/expenses/<id>` | Delete an expense |
+| Method   | URL                  | Description          |
+| -------- | -------------------- | -------------------- |
+| `POST`   | `/api/register`      | Create account       |
+| `POST`   | `/api/login`         | Log in               |
+| `POST`   | `/api/logout`        | Log out              |
+| `GET`    | `/api/whoami`        | Current user info    |
+| `GET`    | `/api/budget`        | Get current budget   |
+| `POST`   | `/api/budget`        | Set or update budget |
+| `GET`    | `/api/expenses`      | List all expenses    |
+| `POST`   | `/api/expenses`      | Add an expense       |
+| `DELETE` | `/api/expenses/<id>` | Delete an expense    |
 
 ---
 
