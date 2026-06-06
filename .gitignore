@@ -1,3 +1,4 @@
 private/
 instance/
 __pycache__/
+.venv/
