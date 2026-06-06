@@ -1,7 +1,7 @@
 # Personal Expense Tracker
 
 <p align="center">
-  <img src="assets/screenshot-1.png" alt="Personal Expense Tracker" width="75%" />
+  <img src="assets/github-social-preview.png" alt="Personal Expense Tracker" width="100%" />
 </p>
 
 A full-stack expense tracking application where users can set a monthly budget, log expenses, and view a spending summary.
@@ -76,12 +76,6 @@ Runs on `http://localhost:5173`.
 
 ## Screenshots
 
-<table>
-  <tr>
-    <td><img src="assets/screenshot-1.png" alt="Screenshot 1" /></td>
-    <td><img src="assets/screenshot-2.png" alt="Screenshot 2" /></td>
-  </tr>
-  <tr>
-    <td><img src="assets/screenshot-3.png" alt="Screenshot 3" /></td>
-  </tr>
-</table>
+<img src="assets/dashboard_page.png" alt="Dashboard Page" width="100%" />
+<br>
+<img src="assets/login_page.png" alt="Login Page" width="100%" />
