@@ -36,14 +36,23 @@ personal-expense-tracker/
 
 ### API endpoints
 
+#### Auth
 | Method   | URL                  | Description          |
 | -------- | -------------------- | -------------------- |
 | `POST`   | `/api/register`      | Create account       |
 | `POST`   | `/api/login`         | Log in               |
 | `POST`   | `/api/logout`        | Log out              |
 | `GET`    | `/api/whoami`        | Current user info    |
+
+#### Budget
+| Method   | URL                  | Description          |
+| -------- | -------------------- | -------------------- |
 | `GET`    | `/api/budget`        | Get current budget   |
 | `POST`   | `/api/budget`        | Set or update budget |
+
+#### Expenses
+| Method   | URL                  | Description          |
+| -------- | -------------------- | -------------------- |
 | `GET`    | `/api/expenses`      | List all expenses    |
 | `POST`   | `/api/expenses`      | Add an expense       |
 | `DELETE` | `/api/expenses/<id>` | Delete an expense    |
